@@ -7,8 +7,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -21,7 +23,9 @@ public class SampleControllerTest {
     public void hello() throws Exception {
         mvc.perform(get("/hello"))
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andExpect(view().name("hello"))
-                .andExpect(model().attribute("name", is("junseong")));
+                .andExpect(model().attribute("name", is("junseong")))
+                .andExpect(content().string(containsString("junseong")));
     }
 }
